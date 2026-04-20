@@ -1,0 +1,35 @@
+rules_version = '2';
+
+// ============================================================
+// Firestore Security Rules - KelolaRumahKu
+// ============================================================
+// CARA PAKAI:
+// 1. Buka Firebase Console → Firestore Database → Rules
+// 2. Copy-paste seluruh isi file ini
+// 3. Klik "Publish"
+// ============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Profil user ─────────────────────────────────────────
+    // Hanya user yang bersangkutan yang bisa baca/tulis profil miliknya
+    match /users/{userId} {
+      allow read, write: if request.auth != null
+                         && request.auth.uid == userId;
+
+      // ── Subkoleksi data per user ──────────────────────────
+      // Semua subkoleksi (shopping, expenses, income, items, dll.)
+      // hanya bisa diakses oleh pemilik akun (berdasarkan UID)
+      match /{subcollection}/{docId} {
+        allow read, write: if request.auth != null
+                           && request.auth.uid == userId;
+      }
+    }
+
+    // Semua dokumen lain tidak bisa diakses
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

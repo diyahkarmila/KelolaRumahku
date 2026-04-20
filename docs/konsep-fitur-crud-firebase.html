@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dokumentasi Final - KelolaRumahKu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <div class="docs">
+    <div class="panel">
+      <div class="head"><div><div class="eyebrow">Konsep</div><h3>KelolaRumahKu</h3></div></div>
+      <p style="line-height:1.9;color:var(--muted)">
+        KelolaRumahKu adalah website manajemen rumah tangga berbasis web untuk mengelola daftar belanja,
+        pengeluaran, peralatan rumah, kategori, dan aktivitas rumah tangga dalam satu sistem terintegrasi.
+      </p>
+    </div>
+
+    <div class="panel">
+      <div class="head"><div><div class="eyebrow">Fitur Halaman</div><h3>Halaman Utama</h3></div></div>
+      <ul style="line-height:2;color:var(--text)">
+        <li>Dashboard: ringkasan statistik, pengeluaran, daftar belanja aktif, aktivitas terakhir</li>
+        <li>Daftar Belanja: tambah, lihat, edit, hapus item belanja</li>
+        <li>Pengeluaran: tambah, lihat, edit, hapus data pengeluaran</li>
+        <li>Peralatan Rumah: tambah, lihat, edit, hapus inventaris rumah</li>
+        <li>Kategori: tambah, lihat, edit, hapus kategori</li>
+        <li>Aktivitas: melihat riwayat aktivitas rumah tangga</li>
+        <li>Login & Register: autentikasi user</li>
+        <li>Admin: monitoring data global</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <div class="head"><div><div class="eyebrow">Pembagian 12 CRUD</div><h3>CRUD Inti Sistem</h3></div></div>
+      <ol style="line-height:2;color:var(--text)">
+        <li>Create daftar belanja</li>
+        <li>Read daftar belanja</li>
+        <li>Update daftar belanja</li>
+        <li>Delete daftar belanja</li>
+        <li>Create pengeluaran</li>
+        <li>Read pengeluaran</li>
+        <li>Update pengeluaran</li>
+        <li>Delete pengeluaran</li>
+        <li>Create peralatan rumah</li>
+        <li>Update/Delete peralatan rumah (manajemen inventaris)</li>
+        <li>CRUD kategori</li>
+        <li>Read aktivitas rumah tangga</li>
+      </ol>
+    </div>
+
+    <div class="panel">
+      <div class="head"><div><div class="eyebrow">Struktur Firebase</div><h3>Firebase Realtime Database</h3></div></div>
+      <pre>{
+  "users": {
+    "uid_001": {
+      "name": "Alya",
+      "email": "alya@email.com",
+      "role": "user",
+      "createdAt": "2025-01-01T08:00:00Z"
+    }
+  },
+  "categories": {
+    "cat_001": {
+      "name": "Kebutuhan Pokok",
+      "type": "shopping"
+    },
+    "cat_002": {
+      "name": "Peralatan",
+      "type": "item"
+    }
+  },
+  "shopping_lists": {
+    "shop_001": {
+      "userId": "uid_001",
+      "name": "Beras 5kg",
+      "categoryId": "cat_001",
+      "quantity": 2,
+      "status": "pending",
+      "isAsset": false,
+      "createdAt": "2025-01-02T10:00:00Z"
+    }
+  },
+  "expenses": {
+    "exp_001": {
+      "userId": "uid_001",
+      "shoppingId": "shop_001",
+      "title": "Belanja Beras 5kg",
+      "amount": 150000,
+      "category": "Kebutuhan Pokok",
+      "date": "2025-01-02"
+    }
+  },
+  "household_items": {
+    "item_001": {
+      "userId": "uid_001",
+      "expenseId": "exp_009",
+      "name": "Blender",
+      "condition": "Baik",
+      "purchaseDate": "2025-01-02",
+      "status": "active"
+    }
+  },
+  "activities": {
+    "act_001": {
+      "userId": "uid_001",
+      "action": "create_shopping",
+      "description": "Menambahkan Beras 5kg ke daftar belanja",
+      "createdAt": "2025-01-02T10:00:00Z"
+    }
+  }
+}</pre>
+    </div>
+
+    <div class="panel">
+      <div class="head"><div><div class="eyebrow">Alur Utama</div><h3>Flow Sistem</h3></div></div>
+      <p style="line-height:1.9;color:var(--muted)">
+        User register/login → menambahkan daftar belanja → menandai barang sudah dibeli →
+        data otomatis masuk ke pengeluaran → jika barang berupa aset, masuk ke peralatan rumah →
+        user/admin dapat mengelola, mengupdate, atau menghapus data → seluruh aktivitas tercatat
+        dalam riwayat rumah tangga.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

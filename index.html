@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KelolaRumahKu - Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div id="authGateMessage" class="auth-gate">Memeriksa sesi login...</div>
+  <div class="shell dashboard-shell">
+    <aside class="sidebar dashboard-sidebar">
+      <div class="brand brand-dashboard">
+        <div class="logo">🏠</div>
+        <div>
+          <h1>KelolaRumahKu</h1>
+          <p>Dashboard rumah tangga modern</p>
+        </div>
+      </div>
+
+      <nav class="nav dashboard-nav">
+        <a class="active" href="index.html"><span>🏡</span><span>Dashboard</span></a>
+        <a href="pages/shopping.html"><span>🛒</span><span>Daftar Belanja</span></a>
+        <a href="pages/expenses.html"><span>💸</span><span>Pengeluaran</span></a>
+        <a href="pages/income.html"><span>💰</span><span>Pemasukan</span></a>
+        <a href="pages/activities.html"><span>📝</span><span>Aktivitas</span></a>
+      </nav>
+
+      <div class="side-card profile-card dashboard-profile-card">
+        <div class="profile-card-top">
+          <div class="profile-avatar" data-user-initial>U</div>
+          <div>
+            <h3 data-user-name>Pengguna</h3>
+            <p data-user-email>email@contoh.com</p>
+          </div>
+        </div>
+        <button class="btn btn-soft" data-logout>Logout</button>
+      </div>
+    </aside>
+
+    <main class="main dashboard-main">
+
+      <section class="dashboard-hero card-surface">
+        <div class="dashboard-hero-copy">
+          <span class="hero-chip">Dashboard rumah tangga</span>
+          <h2>Selamat datang di <span>KelolaRumahKu!</span></h2>
+          <p id="welcomeText">Semua kebutuhan rumahmu siap dipantau lebih rapi, dari belanja, pengeluaran, sampai pemasukan keluarga.</p>
+          <div class="hero-actions">
+            <a class="btn btn-soft" href="pages/shopping.html">Kelola Rumah</a>
+          </div>
+        </div>
+        <div class="dashboard-hero-visual" aria-hidden="true">
+          <div class="hero-circle large"></div>
+          <div class="hero-circle small"></div>
+          <div class="hero-illustration-card">
+            <div class="hero-avatar">👩🏻‍💼</div>
+            <div class="hero-illustration-lines">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="hero-floating hero-floating-a">📋</div>
+            <div class="hero-floating hero-floating-b">💳</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-grid modern-stats-grid">
+        <article class="metric-card metric-blue">
+          <div class="metric-icon">🛒</div>
+          <div>
+            <p>Daftar Belanja</p>
+            <h3 id="totalBelanja">0 Item</h3>
+            <small>Item aktif di rumah</small>
+          </div>
+        </article>
+        <article class="metric-card metric-green">
+          <div class="metric-icon">💸</div>
+          <div>
+            <p>Total Pengeluaran</p>
+            <h3 id="totalPengeluaran">Rp 0</h3>
+            <small>Total seluruh transaksi keluar</small>
+          </div>
+        </article>
+        <article class="metric-card metric-teal">
+          <div class="metric-icon">📊</div>
+          <div>
+            <p>Saldo Bersih</p>
+            <h3 id="netBalance">Rp 0</h3>
+            <small id="netBalanceNote">Selisih pemasukan &amp; pengeluaran</small>
+          </div>
+        </article>
+        <article class="metric-card metric-yellow">
+          <div class="metric-icon">💰</div>
+          <div>
+            <p>Total Pemasukan</p>
+            <h3 id="totalPemasukan">Rp 0</h3>
+            <small>Pendapatan yang tercatat</small>
+          </div>
+        </article>
+        <article class="metric-card metric-pink">
+          <div class="metric-icon">📝</div>
+          <div>
+            <p>Aktivitas</p>
+            <h3 id="totalAktivitas">0 Aktivitas</h3>
+            <small>Riwayat terbaru pengguna</small>
+          </div>
+        </article>
+      </section>
+
+      <section class="dashboard-content-grid">
+        <article class="panel modern-panel stat-panel">
+          <div class="line-chart-card">
+            <div class="chart-card-head">
+              <h4>Grafik Keuangan 6 Bulan Terakhir</h4>
+              <p>Perbandingan pemasukan dan pengeluaran per bulan</p>
+            </div>
+            <div class="chart-canvas-wrap line-only">
+              <canvas id="monthlyFinanceChart"></canvas>
+            </div>
+          </div>
+        </article>
+
+        <article class="panel modern-panel list-panel">
+          <div class="head modern-head">
+            <div>
+              <div class="eyebrow">Transaksi terakhir</div>
+              <h3>Pengeluaran Terbaru</h3>
+            </div>
+          </div>
+          <div class="list modern-list" id="recentExpensesList">
+            <div class="empty-inline">Belum ada data pengeluaran.</div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="js/protected-page.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

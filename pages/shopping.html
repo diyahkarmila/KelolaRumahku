@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Belanja - KelolaRumahKu</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css" />
+  <style>
+    /* ── Shopping to-do list styles ── */
+    .shopping-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .shopping-progress {
+      font-size: 14px;
+      font-weight: 700;
+      color: #7a906a;
+      background: #eef5e4;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid #d9ead1;
+    }
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .filter-btn {
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid #dde7ce;
+      background: #f5f9ef;
+      color: #6d8659;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all .18s;
+    }
+    .filter-btn:hover { background: #eaf3df; }
+    .filter-btn--active {
+      background: linear-gradient(135deg, #8ea565, #72864f);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 6px 18px rgba(114,134,79,.22);
+    }
+
+    /* ── Item card ── */
+    #shoppingList { display: grid; gap: 10px; }
+
+    .shopping-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid #dfe7d1;
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: 0 6px 20px rgba(112,132,76,.06);
+      transition: opacity .2s, background .2s;
+    }
+    .shopping-item--done {
+      background: rgba(235,245,224,.55);
+      border-color: #cde0bc;
+      opacity: .75;
+    }
+
+    /* Custom checkbox */
+    .shopping-check-label {
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .shopping-checkbox {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .shopping-checkmark {
+      display: block;
+      width: 26px; height: 26px;
+      border-radius: 8px;
+      border: 2px solid #b5caaa;
+      background: #fff;
+      transition: all .18s;
+    }
+    .shopping-checkbox:checked ~ .shopping-checkmark {
+      background: linear-gradient(135deg, #8ea565, #72864f);
+      border-color: #72864f;
+    }
+    .shopping-checkmark::after {
+      content: '';
+      display: none;
+      position: absolute;
+      left: 9px; top: 5px;
+      width: 7px; height: 13px;
+      border: 2.5px solid #fff;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+    .shopping-checkbox:checked ~ .shopping-checkmark::after {
+      display: block;
+    }
+
+    /* Item body */
+    .shopping-item-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .shopping-item-name {
+      display: block;
+      font-size: 17px;
+      font-weight: 700;
+      color: #4a5e3b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: all .2s;
+    }
+    .shopping-item--done .shopping-item-name {
+      text-decoration: line-through;
+      color: #8a9c7e;
+    }
+    .shopping-item-meta {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .shopping-badge {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: #edf3de;
+      color: #637a4e;
+      border: 1px solid #d8e8c6;
+    }
+    .shopping-badge--cat { background: #f0ece3; color: #7a6a4e; border-color: #e3d9c8; }
+    .shopping-badge--done { background: #dff0d1; color: #4a7a35; border-color: #c0dca8; }
+
+    /* Delete button */
+    .shopping-delete-btn {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      border: 1px solid #edcbc7;
+      background: #fff3f1;
+      color: #99564f;
+      font-size: 14px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all .18s;
+    }
+    .shopping-delete-btn:hover {
+      background: #fce4e1;
+      transform: scale(1.1);
+    }
+
+    /* Empty state */
+    .shopping-empty {
+      text-align: center;
+      padding: 40px 20px;
+      border: 1.5px dashed #d8e3cb;
+      border-radius: 20px;
+      background: rgba(255,255,255,.5);
+      color: #839373;
+    }
+    .shopping-empty span { font-size: 42px; display: block; margin-bottom: 10px; }
+    .shopping-empty p { margin: 0; font-size: 15px; line-height: 1.7; }
+
+    /* Add form */
+    .shopping-add-form {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+    .shopping-add-form .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 140px;
+    }
+    .shopping-add-form .input-group label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6d7f62;
+    }
+    .shopping-add-form .input-group input {
+      padding: 13px 16px;
+      border-radius: 16px;
+      border: 1px solid #dde7cc;
+      background: rgba(255,255,255,.9);
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: border-color .18s;
+    }
+    .shopping-add-form .input-group input:focus {
+      border-color: #8ea565;
+      box-shadow: 0 0 0 3px rgba(142,165,101,.12);
+    }
+    #shoppingSubmitBtn {
+      padding: 13px 22px;
+      border-radius: 16px;
+      border: none;
+      background: linear-gradient(135deg, #8ea565, #72864f);
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(114,134,79,.22);
+      transition: all .18s;
+      white-space: nowrap;
+      align-self: flex-end;
+    }
+    #shoppingSubmitBtn:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(114,134,79,.3); }
+    #shoppingSubmitBtn:disabled { opacity: .6; transform: none; cursor: not-allowed; }
+
+    @media (max-width: 640px) {
+      .shopping-add-form { flex-direction: column; }
+      #shoppingSubmitBtn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div id="authGateMessage" class="auth-gate">Memeriksa sesi login...</div>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">🏡</div>
+        <div><h1>KelolaRumahKu</h1><p>Home manager yang hangat dan rapi</p></div>
+      </div>
+      <nav class="nav">
+        <a class="" href="../index.html"><span>🏠</span><span>Dashboard</span></a>
+        <a class="active" href="shopping.html"><span>🛒</span><span>Daftar Belanja</span></a>
+        <a class="" href="expenses.html"><span>💸</span><span>Pengeluaran</span></a>
+        <a class="" href="income.html"><span>💰</span><span>Pemasukan</span></a>
+        <a class="" href="activities.html"><span>📝</span><span>Aktivitas</span></a>
+      </nav>
+      <div class="side-card profile-card">
+        <div class="profile-avatar" data-user-initial>U</div>
+        <div>
+          <h3 data-user-name>Pengguna</h3>
+          <p data-user-email>email@contoh.com</p>
+        </div>
+        <button class="btn btn-soft" data-logout>Logout</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="page-header-row">
+        <div class="page-header-copy">
+          <h1 class="page-title">🛒 Daftar Belanja</h1>
+          <p class="page-sub">Catat kebutuhan belanja rumah, lalu centang yang sudah dibeli.</p>
+        </div>
+      </div>
+
+      <!-- Panel Daftar -->
+      <section class="panel" style="padding: 22px; margin-bottom: 18px;">
+        <div class="shopping-header">
+          <div>
+            <div class="eyebrow">To-do list belanja</div>
+            <h3 style="margin: 6px 0 0; font-size: 26px; color: #5f7745;">Belanja Rumah Tangga</h3>
+          </div>
+          <span class="shopping-progress" id="shoppingCount">0 / 0 sudah dibeli</span>
+        </div>
+
+        <div class="filter-bar">
+          <button class="filter-btn filter-btn--active" data-filter="all">Semua</button>
+          <button class="filter-btn" data-filter="undone">⏳ Belum dibeli</button>
+          <button class="filter-btn" data-filter="done">✅ Sudah dibeli</button>
+        </div>
+
+        <p id="shoppingMessage" class="form-message" style="margin-bottom: 12px;"></p>
+        <div id="shoppingList"></div>
+      </section>
+
+      <!-- Panel Tambah Item -->
+      <section class="panel" style="padding: 22px;">
+        <div class="head" style="margin-bottom: 18px;">
+          <div>
+            <div class="eyebrow">Tambah item</div>
+            <h3 style="margin: 6px 0 0; font-size: 24px; color: #5f7745;">Item baru</h3>
+          </div>
+        </div>
+        <p class="form-hint">Masukkan nama barang yang perlu dibeli. Centang nanti setelah dibeli.</p>
+
+        <form id="shoppingForm" class="shopping-add-form">
+          <div class="input-group">
+            <label for="inputNama">Nama barang <span style="color:#c06060">*</span></label>
+            <input
+              id="inputNama"
+              type="text"
+              placeholder="Contoh: Beras 5 kg"
+              autocomplete="off"
+              required
+            />
+          </div>
+          <div class="input-group" style="max-width: 150px;">
+            <label for="inputJumlah">Jumlah</label>
+            <input
+              id="inputJumlah"
+              type="text"
+              placeholder="Contoh: 2"
+            />
+          </div>
+          <button id="shoppingSubmitBtn" type="submit">+ Tambah</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="../js/shopping.js"></script>
+</body>
+</html>

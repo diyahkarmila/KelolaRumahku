@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pemasukan - KelolaRumahKu</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <div id="authGateMessage" class="auth-gate">Memeriksa sesi login...</div>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">🏡</div>
+        <div><h1>KelolaRumahKu</h1><p>Home manager yang hangat dan rapi</p></div>
+      </div>
+      <nav class="nav">
+        <a class="" href="../index.html"><span>🏠</span><span>Dashboard</span></a>
+        <a class="" href="shopping.html"><span>🛒</span><span>Daftar Belanja</span></a>
+        <a class="" href="expenses.html"><span>💸</span><span>Pengeluaran</span></a>
+        <a class="active" href="income.html"><span>💰</span><span>Pemasukan</span></a>
+        <a class="" href="activities.html"><span>📝</span><span>Aktivitas</span></a>
+      </nav>
+      <div class="side-card profile-card">
+        <div class="profile-avatar" data-user-initial>U</div>
+        <div>
+          <h3 data-user-name>Pengguna</h3>
+          <p data-user-email>email@contoh.com</p>
+        </div>
+        <button class="btn btn-soft" data-logout>Logout</button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="page-header-row">
+        <div class="page-header-copy">
+          <h1 class="page-title">💰 Pemasukan</h1>
+          <p class="page-sub">Catat dan pantau semua sumber pemasukan rumah tangga secara terstruktur.</p>
+        </div>
+      </div>
+      <section class="panel list-panel">
+        <div class="head">
+          <div>
+            <div class="eyebrow">Data tersimpan</div>
+            <h3>Riwayat pemasukan</h3>
+          </div>
+        </div>
+        <div class="form-message info" data-form-message>Memuat data...</div>
+        <div class="collection-list" data-entries-list></div>
+      </section>
+      <section class="panel form-panel" id="formTambahData">
+        <div class="head">
+          <div>
+            <div class="eyebrow">Input data</div>
+            <h3 id="formPanelTitle">Tambah pemasukan</h3>
+          </div>
+        </div>
+        <p class="form-hint">Masukkan sumber pemasukan baru untuk pelacakan keuangan rumah tangga.</p>
+        <form class="data-form" data-collection="income" data-singular="pemasukan">
+          <div class="form-grid-3">
+            <label><span>Sumber pemasukan</span><input class="input" name="title" type="text" placeholder="Contoh: Gaji bulan ini" /></label>
+            <label><span>Nominal</span><input class="input" name="amount" type="number" placeholder="Contoh: 5000000" /></label>
+            <label><span>Kategori</span><input class="input" name="category" type="text" placeholder="Contoh: Gaji, Bonus, Freelance" /></label>
+            <label><span>Tanggal diterima</span><input class="input" name="date" type="date" /></label>
+            <label><span>Metode penerimaan</span><input class="input" name="paymentMethod" type="text" placeholder="Contoh: Transfer bank" /></label>
+            <label><span>Catatan</span><input class="input" name="notes" type="text" placeholder="Catatan tambahan" /></label>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Simpan Data</button>
+            <button class="btn btn-soft" type="reset">Reset Form</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="../js/data-form.js"></script>
+</body>
+</html>

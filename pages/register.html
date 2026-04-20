@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - KelolaRumahKu</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-side">
+        <span class="badge">🌿 Mulai Lebih Rapi</span>
+        <h2>Buat akun baru untuk menyimpan data rumah per pengguna.</h2>
+      </div>
+      <div class="auth-form">
+        <h3>Register</h3>
+        <p class="helper">Buat akun baru untuk mulai mencatat kebutuhan rumah tangga kamu.</p>
+        <form id="registerForm" class="stack">
+          <input class="input" id="registerName" type="text" placeholder="Nama lengkap" required />
+          <input class="input" id="registerEmail" type="email" placeholder="Email" required />
+          <input class="input" id="registerPassword" type="password" placeholder="Password" required />
+          <input class="input" id="registerConfirmPassword" type="password" placeholder="Konfirmasi password" required />
+          <button class="btn btn-primary" type="submit">Daftar</button>
+          <a class="btn btn-soft auth-link-btn" href="login.html">Sudah punya akun?</a>
+        </form>
+        <p id="registerMessage" class="form-message"></p>
+        <p class="footer-note">Setelah daftar, cek email kamu untuk verifikasi.</p>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    import { redirectIfLoggedIn, registerWithEmail } from "../js/auth.js";
+
+    redirectIfLoggedIn("../index.html");
+
+    document.getElementById("registerForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await registerWithEmail({
+        name: document.getElementById("registerName").value.trim(),
+        email: document.getElementById("registerEmail").value.trim(),
+        password: document.getElementById("registerPassword").value,
+        confirmPassword: document.getElementById("registerConfirmPassword").value,
+        messageEl: document.getElementById("registerMessage"),
+        redirectTo: "login.html?verify=sent",
+      });
+    });
+  </script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

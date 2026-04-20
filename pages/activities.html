@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aktivitas - KelolaRumahKu</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <div id="authGateMessage" class="auth-gate">Memeriksa sesi login...</div>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">🏡</div>
+        <div><h1>KelolaRumahKu</h1><p>Home manager yang hangat dan rapi</p></div>
+      </div>
+      <nav class="nav">
+        <a class="" href="../index.html"><span>🏠</span><span>Dashboard</span></a>
+        <a class="" href="shopping.html"><span>🛒</span><span>Daftar Belanja</span></a>
+        <a class="" href="expenses.html"><span>💸</span><span>Pengeluaran</span></a>
+        <a class="" href="income.html"><span>💰</span><span>Pemasukan</span></a>
+        <a class="active" href="activities.html"><span>📝</span><span>Aktivitas</span></a>
+      </nav>
+      <div class="side-card profile-card">
+        <div class="profile-avatar" data-user-initial>U</div>
+        <div>
+          <h3 data-user-name>Pengguna</h3>
+          <p data-user-email>email@contoh.com</p>
+        </div>
+        <button class="btn btn-soft" data-logout>Logout</button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="page-header-row">
+        <div class="page-header-copy">
+          <h1 class="page-title">📝 Aktivitas</h1>
+          <p class="page-sub">Simpan aktivitas rumah tangga ke Firestore dan lihat riwayatnya dengan cepat.</p>
+        </div>
+      </div>
+      <section class="panel list-panel">
+        <div class="head">
+          <div>
+            <div class="eyebrow">Data tersimpan</div>
+            <h3>Riwayat aktivitas</h3>
+          </div>
+        </div>
+        <div class="form-message info" data-form-message>Memuat data...</div>
+        <div class="collection-list" data-entries-list></div>
+      </section>
+      <section class="panel form-panel" id="formTambahData">
+        <div class="head">
+          <div>
+            <div class="eyebrow">Input data</div>
+            <h3>Tambah aktivitas</h3>
+          </div>
+        </div>
+        <p class="form-hint">Catat aktivitas rumah agar jadwal dan progres lebih mudah dipantau.</p>
+        <form class="data-form" data-collection="activities" data-singular="aktivitas">
+          <div class="form-grid-3">
+            <label><span>Judul aktivitas</span><input class="input" name="title" type="text" placeholder="Contoh: Bersih-bersih dapur" /></label>
+            <label><span>Tanggal</span><input class="input" name="date" type="date" /></label>
+            <label><span>Waktu</span><input class="input" name="time" type="time" /></label>
+            <label><span>Kategori</span><input class="input" name="category" type="text" placeholder="Contoh: Rumah" /></label>
+            <label><span>Prioritas</span><input class="input" name="priority" type="text" placeholder="Contoh: Sedang" /></label>
+            <label><span>Catatan</span><input class="input" name="notes" type="text" placeholder="Catatan aktivitas" /></label>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Simpan Data</button>
+            <button class="btn btn-soft" type="reset">Reset Form</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="../js/data-form.js"></script>
+</body>
+</html>

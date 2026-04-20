@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - KelolaRumahKu</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css" />
+</head>
+<body>
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <div class="auth-side">
+        <span class="badge">🌿 Welcome Home</span>
+        <h2>Masuk dulu, lalu lanjut kelola rumahmu dengan lebih tenang.</h2>
+        <p>
+          Halaman ini sudah siap memakai Firebase Auth. Setelah login, pengguna akan langsung diarahkan ke dashboard dan data rumah bisa dipisahkan berdasarkan akun masing-masing.
+        </p>
+        <div class="auth-points">
+          <span>✓ Login dengan email & password</span>
+          <span>✓ Redirect otomatis ke dashboard</span>
+          <span>✓ Siap dipakai per user di Firestore</span>
+        </div>
+      </div>
+      <div class="auth-form">
+        <h3>Login</h3>
+        <p class="helper">Masuk untuk melihat dashboard rumah tangga kamu.</p>
+        <form id="loginForm" class="stack">
+          <input class="input" id="loginEmail" type="email" placeholder="Email" required />
+          <input class="input" id="loginPassword" type="password" placeholder="Password" required />
+          <button class="btn btn-primary" type="submit">Masuk</button>
+          <a class="btn btn-soft auth-link-btn" href="register.html">Buat akun baru</a>
+        </form>
+        <p id="loginMessage" class="form-message"></p>
+        <div id="verificationBox" class="verification-box" style="display:none; margin-top:12px;">
+          <p class="helper" style="margin-bottom:10px;">Akunmu sudah dibuat, tapi email belum diverifikasi.</p>
+          <button id="resendVerificationBtn" class="btn btn-soft" type="button">Kirim ulang verifikasi email</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    import { redirectIfLoggedIn, loginWithEmail, resendCurrentUserVerificationEmail } from "../js/auth.js";
+
+    redirectIfLoggedIn("../index.html");
+
+    const loginMessage = document.getElementById("loginMessage");
+    const verificationBox = document.getElementById("verificationBox");
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("verify") === "sent") {
+      loginMessage.textContent = "Registrasi berhasil. Email verifikasi sudah dikirim. Silakan cek inbox atau folder spam, lalu login setelah email diverifikasi.";
+      loginMessage.className = "form-message success";
+    } else if (params.get("verify") === "pending") {
+      loginMessage.textContent = "Email akun ini belum diverifikasi. Verifikasi dulu sebelum masuk ke dashboard.";
+      loginMessage.className = "form-message error";
+      verificationBox.style.display = "block";
+    }
+
+    document.addEventListener("auth:verification-required", () => {
+      verificationBox.style.display = "block";
+    });
+
+    document.getElementById("resendVerificationBtn").addEventListener("click", async () => {
+      await resendCurrentUserVerificationEmail(loginMessage);
+    });
+
+    document.getElementById("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await loginWithEmail({
+        email: document.getElementById("loginEmail").value.trim(),
+        password: document.getElementById("loginPassword").value,
+        messageEl: loginMessage,
+        redirectTo: "../index.html",
+      });
+    });
+  </script>
+  <script src="../js/app.js"></script>
+</body>
+</html>
